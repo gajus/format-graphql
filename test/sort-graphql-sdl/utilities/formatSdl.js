@@ -61,13 +61,32 @@ test('does not sort parameters', (t) => {
 test('does not strip description', (t) => {
   const input = `
   type Foo {
-    "foo"
+    """foo"""
     foo: ID!
   }
 `;
 
   const expectedOutput = `type Foo {
-  "foo"
+  """foo"""
+  foo: ID!
+}
+`;
+
+  t.is(formatSdl(input), expectedOutput);
+});
+
+// @see https://github.com/graphql/graphql-js/issues/2241#issuecomment-546711570
+// eslint-disable-next-line ava/no-skip-test
+test.skip('does not strip comments', (t) => {
+  const input = `
+  type Foo {
+    # foo
+    foo: ID!
+  }
+`;
+
+  const expectedOutput = `type Foo {
+  # foo
   foo: ID!
 }
 `;
