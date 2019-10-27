@@ -1,6 +1,7 @@
 // @flow
 
 import fs from 'fs';
+import path from 'path';
 import yargs from 'yargs';
 import {
   formatSdl,
@@ -9,27 +10,29 @@ import {
 const argv = yargs
   .env('SGS')
   .help()
-  .usage('Sort GraphQL schema definition language (SDL) document.\nUsage: $0 -f <sdl-path>')
-  .options({
-    'sdl-path': {
-      demand: true,
+  .usage('$0 <sdl-path>', 'Sort GraphQL schema definition language (SDL) document.', (command) => {
+    command.positional('sdl-path', {
       description: 'Path to the GraphQL schema definition (SDL) document.',
       type: 'string',
-    },
+    });
+  })
+  .options({
     write: {
-      demand: true,
+      default: false,
       description: 'Overrides contents of the SDL document.',
       type: 'string',
     },
   })
   .parse();
 
-const inputSdl = fs.readFileSync(argv.sdlPath, 'utf8');
+const resolvedPath = path.resolve(argv.sdlPath);
+
+const inputSdl = fs.readFileSync(resolvedPath, 'utf8');
 
 const outputSdl = formatSdl(inputSdl);
 
 if (argv.write) {
-  fs.writeFileSync(argv.sdlPath, outputSdl);
+  fs.writeFileSync(resolvedPath, outputSdl);
 
   // eslint-disable-next-line no-console
   console.log('Target SDL document has been overriden with the formatted SDL.');
