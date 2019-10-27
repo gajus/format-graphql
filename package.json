@@ -1,0 +1,91 @@
+{
+  "author": {
+    "email": "gajus@gajus.com",
+    "name": "Gajus Kuizinas",
+    "url": "http://gajus.com"
+  },
+  "ava": {
+    "files": [
+      "test/**/*"
+    ],
+    "helpers": [
+      "test/helpers/**/*"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "sources": [
+      "src/**/*"
+    ]
+  },
+  "bin": {
+    "sort-graphql-sdl": "./dist/bin/index.js"
+  },
+  "dependencies": {
+    "graphql": "^14.5.8",
+    "map-obj": "^4.1.0",
+    "yargs": "^14.2.0"
+  },
+  "description": "Sort GraphQL schema definition language (SDL) document.",
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/plugin-transform-flow-strip-types": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "ava": "^2.4.0",
+    "babel-plugin-istanbul": "^5.2.0",
+    "babel-plugin-transform-export-default-name": "^2.0.4",
+    "coveralls": "^3.0.7",
+    "eslint": "^6.5.1",
+    "eslint-config-canonical": "^17.7.0",
+    "flow-bin": "^0.109.0",
+    "flow-copy-source": "^2.0.8",
+    "husky": "^3.0.9",
+    "nyc": "^14.1.1",
+    "semantic-release": "^15.13.27"
+  },
+  "engines": {
+    "node": ">=10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test && npm run build"
+    }
+  },
+  "keywords": [
+    "graphql",
+    "schema",
+    "sdl",
+    "sort",
+    "lint",
+    "format"
+  ],
+  "main": "./dist/index.js",
+  "name": "sort-graphql-sdl",
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "instrument": false,
+    "reporter": [
+      "text-lcov"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "sourceMap": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:gajus/sort-graphql-sdl.git"
+  },
+  "scripts": {
+    "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps && flow-copy-source src dist",
+    "dev": "NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps --watch",
+    "lint": "eslint ./src ./test && flow",
+    "test": "NODE_ENV=test ava --serial --verbose"
+  },
+  "version": "1.0.0"
+}
