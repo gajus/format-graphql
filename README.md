@@ -80,3 +80,16 @@ $ # Overrides target schema.
 $ format-graphql --write ./schema.graphql
 
 ```
+
+### Hooks
+
+I recommend using [husky](https://www.npmjs.com/package/husky) to setup a pre-commit hook that would format the schema, e.g.
+
+```json
+"husky": {
+  "hooks": {
+    "pre-commit": "format-graphql --write true src/schema.graphql"
+  }
+},
+
+```
