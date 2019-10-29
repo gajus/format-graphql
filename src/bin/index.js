@@ -22,7 +22,7 @@ const argv = yargs
     write: {
       default: false,
       description: 'Overrides contents of the SDL document.',
-      type: 'string',
+      type: 'boolean',
     },
   })
   .parse();
