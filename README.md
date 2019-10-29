@@ -9,6 +9,10 @@
 
 Format GraphQL schema definition language (SDL) document.
 
+## Motivation
+
+As schema grows in size, it becomes desirable to automate schema organisation. The primary function of `format-graphql` is to sort definitions and fields in an alphabetical order, therefore enabling predictable discovery and grouping of related schema entities.
+
 ## Behaviour
 
 Alphabetically sorts definitions and fields.
