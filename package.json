@@ -19,14 +19,14 @@
     ]
   },
   "bin": {
-    "sort-graphql-sdl": "./dist/bin/index.js"
+    "format-graphql": "./dist/bin/index.js"
   },
   "dependencies": {
     "graphql": "^14.5.8",
     "map-obj": "^4.1.0",
     "yargs": "^14.2.0"
   },
-  "description": "Sort GraphQL schema definition language (SDL) document.",
+  "description": "Formarts GraphQL schema definition language (SDL) document.",
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
@@ -63,7 +63,7 @@
     "format"
   ],
   "main": "./dist/index.js",
-  "name": "sort-graphql-sdl",
+  "name": "format-graphql",
   "nyc": {
     "include": [
       "src/**/*.js"
@@ -79,7 +79,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:gajus/sort-graphql-sdl.git"
+    "url": "git@github.com:gajus/format-graphql.git"
   },
   "scripts": {
     "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps && flow-copy-source src dist",

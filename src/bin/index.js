@@ -8,7 +8,7 @@ import {
 } from '../utilities';
 
 const argv = yargs
-  .env('SGS')
+  .env('FG')
   .help()
   .usage('$0 <sdl-path>', 'Sort GraphQL schema definition language (SDL) document.', (command) => {
     command.positional('sdl-path', {
