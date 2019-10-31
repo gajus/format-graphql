@@ -25,13 +25,20 @@ const argv = yargs
       type: 'boolean',
     },
   })
+  .options({
+    deep: {
+      default: true,
+      description: 'Sort on fields',
+      type: 'boolean',
+    },
+  })
   .parse();
 
 const resolvedPath = path.resolve(argv.sdlPath);
 
 const inputSdl = fs.readFileSync(resolvedPath, 'utf8');
 
-const outputSdl = formatSdl(inputSdl);
+const outputSdl = formatSdl(inputSdl, {deep: argv.deep});
 
 if (argv.write) {
   fs.writeFileSync(resolvedPath, outputSdl);
