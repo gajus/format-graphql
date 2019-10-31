@@ -93,3 +93,42 @@ test.skip('does not strip comments', (t) => {
 
   t.is(formatSdl(input), expectedOutput);
 });
+
+test('does not sort fields with false deep argument', (t) => {
+  const input = `
+  type Foo {
+    a: ID
+    c: ID
+    b: ID
+  }
+`;
+
+  const expectedOutput = `type Foo {
+  a: ID
+  c: ID
+  b: ID
+}
+`;
+
+  t.is(formatSdl(input, {deep: false}), expectedOutput);
+});
+
+test('sort fields whether deep is true or non exist', (t) => {
+  const input = `
+  type Foo {
+    a: ID
+    c: ID
+    b: ID
+  }
+`;
+
+  const expectedOutput = `type Foo {
+  a: ID
+  b: ID
+  c: ID
+}
+`;
+
+  t.is(formatSdl(input), expectedOutput);
+  t.is(formatSdl(input, {deep: true}), expectedOutput);
+});

@@ -6,7 +6,13 @@ import {
   parse,
 } from 'graphql';
 
-export default (schemaSdl: string): string => {
+type SortOptionsType = {|
+  deep: ?boolean,
+|};
+
+export default (schemaSdl: string, options: ?SortOptionsType): string => {
+  const {deep = true} = options || {};
+
   return print(mapObject(parse(schemaSdl), (key, value) => {
     if ((key === 'fields' || key === 'definitions') && Array.isArray(value)) {
       return [
@@ -22,6 +28,6 @@ export default (schemaSdl: string): string => {
       value,
     ];
   }, {
-    deep: true,
+    deep,
   }));
 };
