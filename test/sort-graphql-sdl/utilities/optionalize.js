@@ -40,31 +40,3 @@ test('get sort options when proper value type addressed', (t) => {
 
   t.deepEqual(actual, expected);
 });
-
-// test('get sort options when argv value is in-proper', (t) => {
-//   const inputs = [false, null, '', 0, NaN];
-//   const expected = {
-//     sortArguments: true,
-//     sortDefinitions: true,
-//     sortFields: true,
-//   };
-
-//   inputs.forEach((input) => {
-//     t.deepEqual(getOptions(input), expected);
-//   });
-// });
-
-// test('get sort options when option value is in-proper', (t) => {
-//   const inputs = [undefined, null, '', 0, NaN];
-//   const expected = {
-//     sortArguments: true,
-//     sortDefinitions: true,
-//     sortFields: true,
-//   };
-
-//   inputs.forEach((value) => {
-//     t.deepEqual(getOptions({
-//       sortDefinitions: value,
-//     }), expected);
-//   });
-// });
