@@ -19,30 +19,24 @@ const argv = yargs
     });
   })
   .options({
-    write: {
-      default: false,
-      description: 'Overrides contents of the SDL document.',
+    'sort-arguments': {
+      default: true,
+      description: 'Sort on arguments',
       type: 'boolean',
     },
-  })
-  .options({
     'sort-definitions': {
       default: true,
       description: 'Sort on definitions',
       type: 'boolean',
     },
-  })
-  .options({
     'sort-fields': {
       default: true,
       description: 'Sort on fields',
       type: 'boolean',
     },
-  })
-  .options({
-    'sort-arguments': {
-      default: true,
-      description: 'Sort on arguments',
+    write: {
+      default: false,
+      description: 'Overrides contents of the SDL document.',
       type: 'boolean',
     },
   })
