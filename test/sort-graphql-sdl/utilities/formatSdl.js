@@ -94,41 +94,91 @@ test.skip('does not strip comments', (t) => {
   t.is(formatSdl(input), expectedOutput);
 });
 
-test('does not sort fields with false deep argument', (t) => {
+test('does not sort definitions when sort argument is false', (t) => {
   const input = `
   type Foo {
-    a: ID
-    c: ID
-    b: ID
+    foo: ID
+  }
+
+  type Bar {
+    bar: ID
   }
 `;
 
   const expectedOutput = `type Foo {
-  a: ID
-  c: ID
-  b: ID
+  foo: ID
+}
+
+type Bar {
+  bar: ID
 }
 `;
 
-  t.is(formatSdl(input, {deep: false}), expectedOutput);
+  t.is(formatSdl(input, {sortDefinitions: false}), expectedOutput);
 });
 
-test('sort fields whether deep is true or non exist', (t) => {
+test('does not sort fields when sort argument is false', (t) => {
   const input = `
   type Foo {
-    a: ID
-    c: ID
-    b: ID
+    apple: ID
+    cat: ID
+    banana: ID
   }
 `;
 
   const expectedOutput = `type Foo {
-  a: ID
-  b: ID
-  c: ID
+  apple: ID
+  cat: ID
+  banana: ID
+}
+`;
+
+  t.is(formatSdl(input, {sortFields: false}), expectedOutput);
+});
+
+test('does not sort arguments when sort argument is false', (t) => {
+  const input = `
+  type Foo {
+    bar(banana: ID, cat: ID, apple: ID): ID!
+  }
+`;
+
+  const expectedOutput = `type Foo {
+  bar(banana: ID, cat: ID, apple: ID): ID!
+}
+`;
+
+  t.is(formatSdl(input, {sortArguments: false}), expectedOutput);
+});
+
+test('sort whether sort options is true or non exist', (t) => {
+  const input = `
+  type Foo {
+    apple: ID
+    cat: ID
+    banana: ID
+  }
+
+  type Bar {
+    bar(banana: ID, cat: ID, apple: ID): ID!
+  }
+`;
+
+  const expectedOutput = `type Bar {
+  bar(apple: ID, banana: ID, cat: ID): ID!
+}
+
+type Foo {
+  apple: ID
+  banana: ID
+  cat: ID
 }
 `;
 
   t.is(formatSdl(input), expectedOutput);
-  t.is(formatSdl(input, {deep: true}), expectedOutput);
+  t.is(formatSdl(input, {
+    sortArguments: true,
+    sortDefinitions: true,
+    sortFields: true,
+  }), expectedOutput);
 });
