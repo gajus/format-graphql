@@ -23,7 +23,7 @@ As schema grows in size, it becomes desirable to automate schema organisation. T
 
 ## Behaviour
 
-Alphabetically sorts definitions and fields.
+Alphabetically sorts definitions, fields and arguments.
 
 ### Example
 
@@ -72,14 +72,18 @@ type Query {
 ```bash
 $ format-graphql --help
 Sort GraphQL schema definition language (SDL) document.
-Usage: format-graphql -f <sdl-path>
+
+Positionals:
+  sdl-path  Path to the GraphQL schema definition (SDL) document.       [string]
 
 Options:
-  --version   Show version number                                      [boolean]
-  --help      Show help                                                [boolean]
-  --sdl-path  Path to the GraphQL schema definition (SDL) document.
-                                                             [string] [required]
-  --write     Overrides contents of the SDL document.        [string] [required]
+  --version           Show version number                              [boolean]
+  --help              Show help                                        [boolean]
+  --sort-arguments    Sort on arguments                [boolean] [default: true]
+  --sort-definitions  Sort on definitions              [boolean] [default: true]
+  --sort-fields       Sort on fields                   [boolean] [default: true]
+  --write             Overrides contents of the SDL document.
+                                                      [boolean] [default: false]
 
 $ # Prints formatted schema.
 $ format-graphql ./schema.graphql
