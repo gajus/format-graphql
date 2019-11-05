@@ -19,6 +19,21 @@ const argv = yargs
     });
   })
   .options({
+    'sort-arguments': {
+      default: true,
+      description: 'Sort on arguments',
+      type: 'boolean',
+    },
+    'sort-definitions': {
+      default: true,
+      description: 'Sort on definitions',
+      type: 'boolean',
+    },
+    'sort-fields': {
+      default: true,
+      description: 'Sort on fields',
+      type: 'boolean',
+    },
     write: {
       default: false,
       description: 'Overrides contents of the SDL document.',
@@ -31,9 +46,20 @@ const resolvedPath = path.resolve(argv.sdlPath);
 
 const inputSdl = fs.readFileSync(resolvedPath, 'utf8');
 
-const outputSdl = formatSdl(inputSdl);
+const {
+  write,
+  sortArguments,
+  sortDefinitions,
+  sortFields,
+} = argv;
 
-if (argv.write) {
+const outputSdl = formatSdl(inputSdl, {
+  sortArguments,
+  sortDefinitions,
+  sortFields,
+});
+
+if (write) {
   fs.writeFileSync(resolvedPath, outputSdl);
 
   // eslint-disable-next-line no-console
