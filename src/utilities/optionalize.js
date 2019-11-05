@@ -8,11 +8,12 @@ type SortOptionsType = {|
 
 type OptionsType = SortOptionsType;
 
-const isBoolean = (value): %checks => {
+// eslint-disable-next-line flowtype/no-weak-types
+const isBoolean = (value: any): %checks => {
   return typeof value === 'boolean';
 };
 
-const toBoolean = (value, defaultValue?: boolean): boolean => {
+const toBoolean = <T>(value: T, defaultValue?: boolean): boolean => {
   if (isBoolean(value)) {
     return value;
   }
@@ -34,10 +35,15 @@ const getSortOptions = (options?: $Shape<SortOptionsType>): SortOptionsType => {
   };
 };
 
-export const getOptions = (options?: $Shape<OptionsType>): OptionsType => {
+const getOptions = (options?: $Shape<OptionsType>): OptionsType => {
   const sortOptions = getSortOptions(options);
 
   return sortOptions;
 };
 
+export {
+  isBoolean,
+  toBoolean,
+  getOptions,
+};
 export type {OptionsType};
