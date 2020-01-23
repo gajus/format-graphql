@@ -5,17 +5,16 @@
     "url": "http://gajus.com"
   },
   "ava": {
+    "babel": {
+      "compileAsTests": [
+        "test/helpers/**/*"
+      ]
+    },
     "files": [
-      "test/**/*"
-    ],
-    "helpers": [
-      "test/helpers/**/*"
+      "test/format-graphql/**/*"
     ],
     "require": [
       "@babel/register"
-    ],
-    "sources": [
-      "src/**/*"
     ]
   },
   "bin": {
@@ -24,27 +23,28 @@
   "dependencies": {
     "graphql": "^14.5.8",
     "map-obj": "^4.1.0",
-    "yargs": "^14.2.0"
+    "yargs": "^15.1.0"
   },
-  "description": "Formarts GraphQL schema definition language (SDL) document.",
+  "description": "Formats GraphQL schema definition language (SDL) document.",
   "devDependencies": {
-    "@babel/cli": "^7.6.4",
-    "@babel/core": "^7.6.4",
-    "@babel/node": "^7.6.3",
-    "@babel/plugin-transform-flow-strip-types": "^7.6.3",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/register": "^7.6.2",
-    "ava": "^2.4.0",
-    "babel-plugin-istanbul": "^5.2.0",
+    "@ava/babel": "^1.0.0",
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/plugin-transform-flow-strip-types": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "ava": "^3.0.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-transform-export-default-name": "^2.0.4",
-    "coveralls": "^3.0.7",
-    "eslint": "^6.5.1",
-    "eslint-config-canonical": "^17.7.0",
-    "flow-bin": "^0.109.0",
-    "flow-copy-source": "^2.0.8",
-    "husky": "^3.0.9",
-    "nyc": "^14.1.1",
-    "semantic-release": "^15.13.27"
+    "coveralls": "^3.0.9",
+    "eslint": "^6.8.0",
+    "eslint-config-canonical": "^18.1.0",
+    "flow-bin": "^0.116.1",
+    "flow-copy-source": "^2.0.9",
+    "husky": "^4.2.0",
+    "nyc": "^15.0.0",
+    "semantic-release": "^16.0.3"
   },
   "engines": {
     "node": ">=10.0"
