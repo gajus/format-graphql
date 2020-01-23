@@ -89,7 +89,7 @@ $ # Prints formatted schema.
 $ format-graphql ./schema.graphql
 $
 $ # Overrides target schema.
-$ format-graphql --write ./schema.graphql
+$ format-graphql --write=true ./schema.graphql
 
 ```
 
