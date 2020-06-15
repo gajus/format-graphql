@@ -23,6 +23,14 @@ const sortSchema = (key, value, options: OptionsType) => {
     return [
       key,
       value.slice().sort((a, b) => {
+        if (a.kind === 'SchemaDefinition') {
+          return -1;
+        }
+
+        if (b.kind === 'SchemaDefinition') {
+          return 1;
+        }
+
         return a.name.value.localeCompare(b.name.value);
       }),
     ];

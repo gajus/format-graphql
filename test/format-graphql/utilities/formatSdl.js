@@ -26,6 +26,29 @@ type Foo {
   t.is(formatSdl(input), expectedOutput);
 });
 
+test('puts schema at the top)', (t) => {
+  const input = `
+  type Foo {
+    id: ID!
+  }
+
+  schema {
+    query: Foo
+  }
+`;
+
+  const expectedOutput = `schema {
+  query: Foo
+}
+
+type Foo {
+  id: ID!
+}
+`;
+
+  t.is(formatSdl(input), expectedOutput);
+});
+
 test('sorts fields', (t) => {
   const input = `
   type Foo {
