@@ -21,30 +21,30 @@
     "format-graphql": "./dist/bin/index.js"
   },
   "dependencies": {
-    "graphql": "^14.5.8",
+    "graphql": "^15.1.0",
     "map-obj": "^4.1.0",
-    "yargs": "^15.1.0"
+    "yargs": "^15.3.1"
   },
   "description": "Formats GraphQL schema definition language (SDL) document.",
   "devDependencies": {
-    "@ava/babel": "^1.0.0",
-    "@babel/cli": "^7.8.3",
-    "@babel/core": "^7.8.3",
-    "@babel/node": "^7.8.3",
-    "@babel/plugin-transform-flow-strip-types": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@babel/register": "^7.8.3",
-    "ava": "^3.0.0",
+    "@ava/babel": "^1.0.1",
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-transform-flow-strip-types": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.1",
+    "ava": "^3.9.0",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-transform-export-default-name": "^2.0.4",
-    "coveralls": "^3.0.9",
-    "eslint": "^6.8.0",
-    "eslint-config-canonical": "^18.1.0",
-    "flow-bin": "^0.116.1",
+    "coveralls": "^3.1.0",
+    "eslint": "^7.2.0",
+    "eslint-config-canonical": "^20.0.6",
+    "flow-bin": "^0.127.0",
     "flow-copy-source": "^2.0.9",
-    "husky": "^4.2.0",
-    "nyc": "^15.0.0",
-    "semantic-release": "^16.0.3"
+    "husky": "^4.2.5",
+    "nyc": "^15.1.0",
+    "semantic-release": "^17.0.8"
   },
   "engines": {
     "node": ">=10.0"

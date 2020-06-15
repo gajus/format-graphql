@@ -52,7 +52,7 @@ test('to boolean with proper value addressed', (t) => {
 });
 
 test('to boolean with in-proper value addressed', (t) => {
-  const inputs = [null, undefined, 0, '', NaN];
+  const inputs = [null, undefined, 0, '', Number.NaN];
 
   inputs.forEach((input) => {
     const actual = toBoolean(input);
@@ -62,7 +62,7 @@ test('to boolean with in-proper value addressed', (t) => {
 });
 
 test('to boolean with in-proper value addressed and default true', (t) => {
-  const inputs = [null, undefined, 0, '', NaN];
+  const inputs = [null, undefined, 0, '', Number.NaN];
 
   inputs.forEach((input) => {
     const actual = toBoolean(input, true);
