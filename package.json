@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "graphql": "^15.1.0",
-    "map-obj": "^4.1.0",
     "yargs": "^15.3.1"
   },
   "description": "Formats GraphQL schema definition language (SDL) document.",
