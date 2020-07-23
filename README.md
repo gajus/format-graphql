@@ -15,6 +15,8 @@ Formats GraphQL schema definition language (SDL) document.
 * [Behaviour](#behaviour)
   * [Example](#example)
 * [Usage](#usage)
+  * [Command Line](#command-line)
+  * [Node API](#node-api)
   * [Hooks](#hooks)
 
 ## Motivation
@@ -69,6 +71,8 @@ type Query {
 
 ## Usage
 
+### Command Line
+
 ```bash
 $ format-graphql --help
 Sort GraphQL schema definition language (SDL) document.
@@ -91,6 +95,33 @@ $
 $ # Overrides target schema.
 $ format-graphql --write=true ./schema.graphql
 
+```
+
+### Node API
+
+`formatSdl(schema, options)`
+
+Returns a formatted GraphQL SDL String.
+
+**Parameters**
+
+- `schema`: string
+- `options` (optional): object:
+
+  ```
+  {
+    sortDefinitions?: boolean,
+    sortFields?: boolean,
+    sortArguments?: boolean,
+  }
+  ```
+
+**Example**
+
+```js
+import {formatSdl} from 'format-graphql';
+
+formatGraphql('type Foo { bar: String }');
 ```
 
 ### Hooks
