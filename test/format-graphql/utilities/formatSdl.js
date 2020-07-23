@@ -2,6 +2,7 @@
 
 import test from 'ava';
 import formatSdl from '../../../src/utilities/formatSdl';
+import generateSchema from '../../helpers/generateSchema';
 
 test('sorts definitions', (t) => {
   const input = `
@@ -205,3 +206,14 @@ type Foo {
     sortFields: true,
   }), expectedOutput);
 });
+
+// Regression test for https://github.com/gajus/format-graphql/issues/10
+test('does not fail for large schemas', (t) => {
+  const input = generateSchema(1000, 1);
+
+  // sanity check to make sure we don't blow up
+  t.notThrows(() => {
+    return formatSdl(input);
+  });
+});
+
