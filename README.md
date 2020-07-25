@@ -103,7 +103,7 @@ $ format-graphql --write=true ./schema.graphql
 
 Returns a formatted GraphQL SDL String.
 
-**Parameters**
+#### Parameters
 
 - `schema`: string
 - `options` (optional): object:
@@ -116,7 +116,7 @@ Returns a formatted GraphQL SDL String.
   }
   ```
 
-**Example**
+#### Example
 
 ```js
 import {formatSdl} from 'format-graphql';
