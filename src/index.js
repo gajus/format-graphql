@@ -1,3 +1,3 @@
 // @flow
 
-export {default as formatSdl} from './utilities/formatSdl';
+export {formatSdl} from './utilities';
