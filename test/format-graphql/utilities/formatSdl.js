@@ -207,6 +207,173 @@ type Foo {
   }), expectedOutput);
 });
 
+test('sorts definitions according to their kind', (t) => {
+  const input = `
+  extend interface Person {
+    lastName: String
+  }
+
+  extend union Union = QueryType
+
+  extend type Foo {
+    bar: String
+  }
+
+  union Union = Foo | Bar
+
+  interface Person {
+    firstName: String
+  }
+
+  interface Node {
+    id: ID!
+  }
+
+  type QueryType {
+    query: String
+  }
+
+  extend schema {
+    mutation: Mutation
+  }
+
+  directive @upper on FIELD_DEFINITION
+
+  type Foo {
+    id: ID
+  }
+
+  directive @lower on FIELD_DEFINITION
+
+  extend type Mutation {
+    doSomethingElse: String
+  }
+
+  extend enum Flavor {
+    CHOCOLATE
+  }
+
+  scalar JSON
+
+  input Order {
+    flavor: Flavor
+  }
+
+  schema {
+    query: QueryType
+  }
+
+  type Mutation {
+    doSomething: String
+  }
+
+  extend scalar Date @serialize
+
+  directive @serialize on SCALAR
+
+  enum Flavor {
+    VANILLA
+  }
+
+  extend input Order {
+    quantity: Int
+  }
+
+  scalar Date
+
+  type Bar {
+    id: ID
+  }
+
+  extend type Bar {
+    bar: String
+  }
+`;
+
+  const expectedOutput = `schema {
+  query: QueryType
+}
+
+extend schema {
+  mutation: Mutation
+}
+
+scalar Date
+
+extend scalar Date @serialize
+
+scalar JSON
+
+directive @lower on FIELD_DEFINITION
+
+directive @serialize on SCALAR
+
+directive @upper on FIELD_DEFINITION
+
+type QueryType {
+  query: String
+}
+
+type Mutation {
+  doSomething: String
+}
+
+extend type Mutation {
+  doSomethingElse: String
+}
+
+type Bar {
+  id: ID
+}
+
+extend type Bar {
+  bar: String
+}
+
+type Foo {
+  id: ID
+}
+
+extend type Foo {
+  bar: String
+}
+
+interface Node {
+  id: ID!
+}
+
+interface Person {
+  firstName: String
+}
+
+extend interface Person {
+  lastName: String
+}
+
+union Union = Foo | Bar
+
+extend union Union = QueryType
+
+input Order {
+  flavor: Flavor
+}
+
+extend input Order {
+  quantity: Int
+}
+
+enum Flavor {
+  VANILLA
+}
+
+extend enum Flavor {
+  CHOCOLATE
+}
+`;
+
+  t.is(formatSdl(input), expectedOutput);
+});
+
 // Regression test for https://github.com/gajus/format-graphql/issues/10
 test('does not fail for large schemas', (t) => {
   const input = generateSchema(1000, 1);

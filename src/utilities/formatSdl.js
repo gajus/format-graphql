@@ -3,10 +3,13 @@
 import {
   print,
   parse,
+  Kind,
 } from 'graphql';
-import type {ASTNode} from 'graphql';
+import type {ASTNode, DocumentNode, SchemaDefinitionNode, SchemaExtensionNode} from 'graphql';
 import {getOptions} from './optionalize';
 import type {OptionsType} from './optionalize';
+
+type SchemaDefinitionOrExtensionType = SchemaDefinitionNode | SchemaExtensionNode;
 
 const sortSchema = (key, value, options: OptionsType) => {
   const {
@@ -21,19 +24,101 @@ const sortSchema = (key, value, options: OptionsType) => {
     sortArguments && key === 'arguments'
   ) {
     return value.slice().sort((a, b) => {
-      if (a.kind === 'SchemaDefinition') {
-        return -1;
+      const sortOrder = a.name?.value.localeCompare(b.name?.value);
+
+      // If the names match, make sure any extensions are after the definition
+      if (sortOrder === 0 || sortOrder === undefined) {
+        if (a.kind.includes('Extension') && b.kind.includes('Definition')) {
+          return 1;
+        } else if (b.kind.includes('Extension') && a.kind.includes('Definition')) {
+          return -1;
+        }
       }
 
-      if (b.kind === 'SchemaDefinition') {
-        return 1;
-      }
-
-      return a.name.value.localeCompare(b.name.value);
+      return sortOrder;
     });
   }
 
   return value;
+};
+
+const getSchemaOperationTypes = (definitions: $ReadOnlyArray<SchemaDefinitionOrExtensionType>) => {
+  const operationTypes = {
+    mutation: 'Mutation',
+    query: 'Query',
+    subscription: 'Subscription',
+  };
+  definitions.forEach((definition) => {
+    if (definition.operationTypes) {
+      definition.operationTypes.forEach((operationType) => {
+        operationTypes[operationType.operation] = operationType.type.name.value;
+      });
+    }
+  });
+
+  return operationTypes;
+};
+
+const sortDefinitionsByKind = ({definitions}: DocumentNode): DocumentNode => {
+  const schemas = definitions.filter((definition) => {
+    return definition.kind === Kind.SCHEMA_DEFINITION || definition.kind === Kind.SCHEMA_EXTENSION;
+  });
+  // eslint-disable-next-line flowtype/no-weak-types, no-extra-parens
+  const {query, mutation, subscription} = getSchemaOperationTypes((schemas: any));
+  const scalars = definitions.filter((definition) => {
+    return definition.kind === Kind.SCALAR_TYPE_DEFINITION || definition.kind === Kind.SCALAR_TYPE_EXTENSION;
+  });
+  const directives = definitions.filter((definition) => {
+    return definition.kind === Kind.DIRECTIVE_DEFINITION;
+  });
+  const allObjectTypes = definitions.filter((definition) => {
+    return definition.kind === Kind.OBJECT_TYPE_DEFINITION || definition.kind === Kind.OBJECT_TYPE_EXTENSION;
+  });
+  // eslint-disable-next-line flowtype/no-weak-types
+  const queryTypes = allObjectTypes.filter((definition: any) => {
+    return definition.name.value === query;
+  });
+  // eslint-disable-next-line flowtype/no-weak-types
+  const mutationTypes = allObjectTypes.filter((definition: any) => {
+    return definition.name.value === mutation;
+  });
+  // eslint-disable-next-line flowtype/no-weak-types
+  const subscriptionTypes = allObjectTypes.filter((definition: any) => {
+    return definition.name.value === subscription;
+  });
+  // eslint-disable-next-line flowtype/no-weak-types
+  const otherObjectTypes = allObjectTypes.filter((definition: any) => {
+    return ![query, mutation, subscription].includes(definition.name.value);
+  });
+  const interfaces = definitions.filter((definition) => {
+    return definition.kind === Kind.INTERFACE_TYPE_DEFINITION || definition.kind === Kind.INTERFACE_TYPE_EXTENSION;
+  });
+  const unions = definitions.filter((definition) => {
+    return definition.kind === Kind.UNION_TYPE_DEFINITION || definition.kind === Kind.UNION_TYPE_EXTENSION;
+  });
+  const inputObjectTypes = definitions.filter((definition) => {
+    return definition.kind === Kind.INPUT_OBJECT_TYPE_DEFINITION || definition.kind === Kind.INPUT_OBJECT_TYPE_EXTENSION;
+  });
+  const enums = definitions.filter((definition) => {
+    return definition.kind === Kind.ENUM_TYPE_DEFINITION || definition.kind === Kind.ENUM_TYPE_EXTENSION;
+  });
+
+  return {
+    definitions: [
+      ...schemas,
+      ...scalars,
+      ...directives,
+      ...queryTypes,
+      ...mutationTypes,
+      ...subscriptionTypes,
+      ...otherObjectTypes,
+      ...interfaces,
+      ...unions,
+      ...inputObjectTypes,
+      ...enums,
+    ],
+    kind: Kind.DOCUMENT,
+  };
 };
 
 /**
@@ -84,6 +169,10 @@ const walkAST = (node: ASTNode, options: OptionsType, key: ?string) => {
   node[key] = sortSchema(key, node[key], options).map((child) => {
     return walkAST(child, options, nextKey[key]);
   });
+
+  if (node.kind === Kind.DOCUMENT && options.sortDefinitions) {
+    return sortDefinitionsByKind(node);
+  }
 
   return node;
 };
