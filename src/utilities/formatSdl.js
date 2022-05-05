@@ -21,11 +21,12 @@ const sortSchema = (key, value, options: OptionsType) => {
     sortArguments && key === 'arguments'
   ) {
     return value.slice().sort((a, b) => {
-      if (a.kind === 'SchemaDefinition') {
+      const nonNamedKinds = ['SchemaDefinition', 'SchemaExtension'];
+      if (nonNamedKinds.includes(a.kind)) {
         return -1;
       }
 
-      if (b.kind === 'SchemaDefinition') {
+      if (nonNamedKinds.includes(b.kind)) {
         return 1;
       }
 
