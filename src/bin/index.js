@@ -29,6 +29,11 @@ const argv = yargs
       description: 'Sort on definitions',
       type: 'boolean',
     },
+    'sort-enums': {
+      default: true,
+      description: 'Sort on enums',
+      type: 'boolean',
+    },
     'sort-fields': {
       default: true,
       description: 'Sort on fields',
@@ -50,12 +55,14 @@ const {
   write,
   sortArguments,
   sortDefinitions,
+  sortEnums,
   sortFields,
 } = argv;
 
 const outputSdl = formatSdl(inputSdl, {
   sortArguments,
   sortDefinitions,
+  sortEnums,
   sortFields,
 });
 

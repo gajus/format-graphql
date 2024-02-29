@@ -67,6 +67,23 @@ test('sorts fields', (t) => {
   t.is(formatSdl(input), expectedOutput);
 });
 
+test('sorts enum values', (t) => {
+  const input = `
+  enum Foo {
+    FOO
+    BAR
+  }
+`;
+
+  const expectedOutput = `enum Foo {
+  BAR
+  FOO
+}
+`;
+
+  t.is(formatSdl(input), expectedOutput);
+});
+
 test('does not sort parameters', (t) => {
   const input = `
   type Foo {

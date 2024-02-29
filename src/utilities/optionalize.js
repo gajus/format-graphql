@@ -2,6 +2,7 @@
 
 type SortOptionsType = {|
   sortDefinitions: boolean,
+  sortEnums: boolean,
   sortFields: boolean,
   sortArguments: boolean,
 |};
@@ -25,12 +26,14 @@ const getSortOptions = (options?: $Shape<SortOptionsType>): SortOptionsType => {
   const {
     sortArguments,
     sortDefinitions,
+    sortEnums,
     sortFields,
   } = options || {};
 
   return {
     sortArguments: toBoolean(sortArguments, true),
     sortDefinitions: toBoolean(sortDefinitions, true),
+    sortEnums: toBoolean(sortEnums, true),
     sortFields: toBoolean(sortFields, true),
   };
 };
