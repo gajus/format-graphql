@@ -116,6 +116,29 @@ test('does not strip description', (t) => {
   t.is(formatSdl(input), expectedOutput);
 });
 
+test('supports schema extensions', (t) => {
+  const input = `
+  extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0",
+    import: ["@key", "@shareable"])
+
+  type GenericResponse @shareable {
+    success: Boolean!
+    message: String
+  }
+`;
+
+  const expectedOutput = `extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+type GenericResponse @shareable {
+  message: String
+  success: Boolean!
+}
+`;
+
+  t.is(formatSdl(input), expectedOutput);
+});
+
 // @see https://github.com/graphql/graphql-js/issues/2241#issuecomment-546711570
 // eslint-disable-next-line ava/no-skip-test
 test.skip('does not strip comments', (t) => {
