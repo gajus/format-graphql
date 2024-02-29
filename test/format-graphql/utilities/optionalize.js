@@ -8,6 +8,7 @@ test('get sort options when no args', (t) => {
   const expected = {
     sortArguments: true,
     sortDefinitions: true,
+    sortEnums: true,
     sortFields: true,
   };
   const actual = getOptions(input);
@@ -20,6 +21,7 @@ test('get sort options when empty object', (t) => {
   const expected = {
     sortArguments: true,
     sortDefinitions: true,
+    sortEnums: true,
     sortFields: true,
   };
   const actual = getOptions(input);
@@ -34,6 +36,7 @@ test('get sort options when proper value type addressed', (t) => {
   const expected = {
     sortArguments: true,
     sortDefinitions: false,
+    sortEnums: true,
     sortFields: true,
   };
   const actual = getOptions(input);

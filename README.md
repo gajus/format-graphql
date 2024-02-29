@@ -85,6 +85,7 @@ Options:
   --help              Show help                                        [boolean]
   --sort-arguments    Sort on arguments                [boolean] [default: true]
   --sort-definitions  Sort on definitions              [boolean] [default: true]
+  --sort-enums        Sort on enums                    [boolean] [default: true]
   --sort-fields       Sort on fields                   [boolean] [default: true]
   --write             Overrides contents of the SDL document.
                                                       [boolean] [default: false]
@@ -111,6 +112,7 @@ Returns a formatted GraphQL SDL String.
   ```
   {
     sortDefinitions?: boolean,
+    sortEnums?: boolean,
     sortFields?: boolean,
     sortArguments?: boolean,
   }

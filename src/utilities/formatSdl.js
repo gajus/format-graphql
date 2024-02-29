@@ -8,15 +8,19 @@ import type {ASTNode} from 'graphql';
 import {getOptions} from './optionalize';
 import type {OptionsType} from './optionalize';
 
-const sortSchema = (key, value, options: OptionsType) => {
+const sortSchema = (key, node: ASTNode, options: OptionsType) => {
+  const value = node[key];
+
   const {
     sortArguments,
     sortDefinitions,
+    sortEnums,
     sortFields,
   } = options;
 
   if (
     sortDefinitions && key === 'definitions' ||
+    sortEnums && node.kind === 'EnumTypeDefinition' && key === 'values' ||
     sortFields && key === 'fields' ||
     sortArguments && key === 'arguments'
   ) {
@@ -39,6 +43,7 @@ const sortSchema = (key, value, options: OptionsType) => {
 /**
  * We only care about rearranging:
  * - definitions
+ * - enums
  * - fields
  * - arguments
  *
@@ -56,6 +61,11 @@ const sortSchema = (key, value, options: OptionsType) => {
  *           ...
  *         ],
  *       },
+ *       {
+ *         values: [
+ *           ...
+ *         ],
+ *       },
  *       ...
  *     ]
  *   }
@@ -64,12 +74,17 @@ const sortSchema = (key, value, options: OptionsType) => {
  * AST. There's a finite nest depth of 3 node types for us to walk down:
  *
  *   <start> -> definitions -> fields -> arguments
+ *
+ * or, for enums:
+ *
+ *   <start> -> definitions -> values
  */
 const walkAST = (node: ASTNode, options: OptionsType, key: ?string) => {
   // Map a node type to the child node type we should walk down next
   const nextKey = {
     arguments: null,
     definitions: 'fields',
+    EnumTypeDefinition: 'values',
     fields: 'arguments',
   };
 
@@ -81,8 +96,8 @@ const walkAST = (node: ASTNode, options: OptionsType, key: ?string) => {
     return node;
   }
 
-  node[key] = sortSchema(key, node[key], options).map((child) => {
-    return walkAST(child, options, nextKey[key]);
+  node[key] = sortSchema(key, node, options).map((child) => {
+    return walkAST(child, options, nextKey[child.kind] || nextKey[key]);
   });
 
   return node;
